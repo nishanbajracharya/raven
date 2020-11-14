@@ -1,0 +1,29 @@
+.message {
+  padding: 16px;
+  margin: 16px 0 0;
+  background: #eee;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.message-user {
+  color: #fff;
+  background: #3182ce;
+  align-self: flex-end;
+}
+
+.message a {
+  text-decoration: underline;
+}
+
+.list {
+  height: calc(100vh - 72px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.form {
+  height: 72px;
+  padding: 16px 0;
+}

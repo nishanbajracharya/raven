@@ -22,13 +22,15 @@ function prepareMessage(body = {}, req) {
 }
 
 export default async (req, res) => {
-  console.log(req.connection.remoteAddress);
-
   if (req.method === 'POST') {
+    const message = prepareMessage(req.body, req);
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
 
-    res.json(db.get('messages').push(prepareMessage(req.body, req)).write());
+    res.json(db.get('messages').push(message).write());
+
+    req.io.emit('message', message);
 
     return;
   }

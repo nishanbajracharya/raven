@@ -14,10 +14,7 @@ function prepareMessage(body = {}, req) {
     text: body.text,
     timestamp: Date.now(),
 
-    user: {
-      platform: body.platform,
-      remoteAddress: req.connection.remoteAddress,
-    },
+    user: body.user,
   };
 }
 

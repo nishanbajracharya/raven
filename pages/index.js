@@ -2,27 +2,26 @@ import Head from 'next/head';
 import { io } from 'socket.io-client';
 import { useState, useEffect } from 'react';
 
-import http from '../utils/http';
 import styles from '../styles/Home.module.css';
+import { getMessages, sendMessage } from '../services/message';
 
 export default function Home() {
   const [messages, setMessages] = useState([]);
 
-  function getMessages() {
-    http.get('/messages').then((response) => {
+  function fetchMessages() {
+    getMessages().then((response) => {
       setMessages(response);
     });
   }
 
   useEffect(async () => {
-
-    getMessages();
+    fetchMessages();
 
     const socket = io();
 
     socket.on('message', (data) => {
       setMessages([...messages, data]);
-      getMessages();
+      fetchMessages();
     });
   }, []);
 
@@ -32,10 +31,7 @@ export default function Home() {
 
     e.target.message.value = '';
 
-    http.post('/messages', {
-      text: formData.get('message'),
-      platform: 'pc',
-    })
+    sendMessage(formData.get('message'));
   }
 
   return (

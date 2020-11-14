@@ -2,7 +2,6 @@ import Head from 'next/head';
 import { io } from 'socket.io-client';
 import { useState, useEffect } from 'react';
 
-import styles from '../styles/Home.module.css';
 import { getMessages, sendMessage } from '../services/message';
 
 export default function Home() {
@@ -35,7 +34,7 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Raven</title>
         <link rel="icon" href="/favicon.ico" />

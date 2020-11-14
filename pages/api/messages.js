@@ -19,21 +19,36 @@ function prepareMessage(body = {}, req) {
 }
 
 export default async (req, res) => {
-  if (req.method === 'POST') {
-    const message = prepareMessage(req.body, req);
-
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json');
-
-    res.json(db.get('messages').push(message).write());
-
-    req.io.emit('message', message);
-
-    return;
+  switch (req.method) {
+    case 'GET':
+      return handleGet(req, res);
+    case 'POST':
+      return handlePost(req, res);
   }
 
+  handleAny(req, res);
+};
+
+function handleGet(req, res) {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
 
   res.json(db.get('messages').value());
-};
+}
+
+function handlePost(req, res) {
+  const message = prepareMessage(req.body, req);
+
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'application/json');
+
+  res.json(db.get('messages').push(message).write());
+
+  req.io.emit('message', message);
+}
+
+function handleAny(req, res) {
+  res.statusCode = 200;
+
+  res.json({});
+}
